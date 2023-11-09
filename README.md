@@ -1,7 +1,11 @@
-# MCC_codes
+#
+#
 
 import numpy as np
 import pandas as pd
+
+#
+#
 
 df_train = pd.read_csv('df_train.csv', sep=';')
 df_test = pd.read_csv('df_test.csv', sep=';')
@@ -9,11 +13,14 @@ df_train['Data'] = df_train.Data.apply(lambda s: list(map(str, s.split(','))))
 df_train['Target'] = df_train.Target.apply(lambda s: list(map(str, s.split(','))))
 df_test['Data'] = df_test.Data.apply(lambda s: list(map(str, s.split(','))))
 
+#
+#
 
 limit_of_predictor_len = 7
 limit_of_prediction_len = 10
 
 # лексикон по всем клиентам
+#
 
 lexicon_general = {}
 
@@ -37,6 +44,7 @@ for key1, val1 in lexicon_general.items():
 
 
 # лексикон для каждого клиента
+#
 
 def get_lexicon(sequence):
     
@@ -75,6 +83,8 @@ def get_frequencies(sequence):
     
     return frequencies
 
+#
+#
 
 def predict_sequence(sequence, predictor_length, window_length, prediction_length=10):
 
@@ -126,9 +136,13 @@ def predict_sequence(sequence, predictor_length, window_length, prediction_lengt
 
     return sequence[-prediction_length:]
 
+#
+#
 
 df_test['Predicted'] = df_test.apply(lambda x: predict_sequence(x['Data'], predictor_length=7, window_length=10), axis=1)
 
+#
+#
 
 df = df_test[['Id', 'Predicted']]
 df['Predicted'] = df.Predicted.astype(str).str.replace(',', '')
